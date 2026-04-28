@@ -6,11 +6,9 @@ import exceptions.CreationFailed;
 import exceptions.DataAlreadyExistsException;
 import exceptions.InvalidDateOfBrith;
 import exceptions.UserNotFound;
-import model.Status;
 import model.User;
 import service.UserService;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -118,5 +116,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isDobValid(Date dob) {
         return dob.before(new Date());
+    }
+
+    @Override
+    public boolean isEmailValid(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email != null && email.matches(regex);
+    }
+
+    @Override
+    public boolean isPasswordValid(String password) {
+        String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@#$%^&+=!]{8,}$";
+        return password != null && password.matches(regex);
     }
 }

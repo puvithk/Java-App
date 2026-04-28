@@ -1,3 +1,4 @@
+import ui.ChatControllerUi;
 import ui.LoginUi;
 import ui.MeetingControllerUi;
 import ui.UserControllerUi;
@@ -29,16 +30,16 @@ public class MainApp {
 
         MeetingControllerUi meetingControllerUi = new MeetingControllerUi(userId);
         UserControllerUi userControllerUi = new UserControllerUi();
-
+        ChatControllerUi chatControllerUi = new ChatControllerUi(userId);
 
 
         while (true) {
             logger.info("""
-                
         ===== MAIN CONSOLE =====
         1 : User Management
         2 : Meeting Management
-        3 : Exit
+        3 : Chats Management
+        4 : Exit
         ========================
         Enter your choice:
         """);
@@ -53,8 +54,10 @@ public class MainApp {
                 case 2:
                     meetingControllerUi.meetingControllerSystem();
                     break;
-
-                case 3:
+                case 3 :
+                    chatControllerUi.chatControllerSystem();
+                    break;
+                case 4:
                     logger.info("Exiting application...");
                     return;
 

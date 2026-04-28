@@ -44,4 +44,12 @@ public class UserController {
     public boolean isDobValid(Date dob){
         return userService.isDobValid(dob);
     }
+    // Checking weather the email is valid
+    public boolean isEmailValid(String email){
+        return userService.isEmailValid(email);
+    }
+    // Checking weather the password
+    public boolean isPasswordValid(String password) {
+        return userService.isPasswordValid(password);
+    }
 }

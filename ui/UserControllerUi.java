@@ -26,7 +26,7 @@ public class UserControllerUi {
         1 : Get all users
         2 : Get user by ID
         3 : Create new user
-        4 : Edit user by ID
+        4 : Edit user by ID(Not working)
         5 : Delete user by ID
         6 : Exit
         Enter your choice:
@@ -51,7 +51,10 @@ public class UserControllerUi {
                     scanner.nextLine();
                     handleCreateUser();
                     break;
-
+                case 5:
+                    scanner.nextLine();
+                    handleDeleteUser();
+                    break;
                 default:
                     logger.info("Enter a valid input : ");
                     break;
@@ -60,6 +63,28 @@ public class UserControllerUi {
 
         }
     }
+
+    private void handleDeleteUser() {
+        logger.info("Enter the user Id which you want to delete");
+        int userId = scanner.nextInt();
+        scanner.nextLine();
+        try{
+            User user = userController.getUserById(userId);
+            logger.info("Are you sure(y/n) : NAME " + user.getName());
+            String choice = scanner.nextLine();
+            if(choice.equalsIgnoreCase("y")){
+                User deletedUser = userController.deleteUserById(userId);
+                logger.info("Deleted the user "+ deletedUser.getName());
+            }
+
+
+        }catch (UserNotFound userNotFound){
+            logger.info("The User is not found");
+            logger.info("Exiting.........");
+        }
+
+    }
+
     private void handleCreateUser() {
 
         logger.info("User id is auto generated");
@@ -68,27 +93,8 @@ public class UserControllerUi {
         String name = scanner.nextLine();
 
 
-        String email;
-        while (true) {
-            logger.info("Enter Email:");
-            email = scanner.nextLine();
+        String email = getEmailId();
 
-            if (!userController.isEmailExists(email)) {
-                break;
-            }
-
-            logger.info("Email already exists!");
-            logger.info("Try different email? (y/n):");
-            String choice = scanner.nextLine();
-
-            if (choice.equalsIgnoreCase("n")) {
-                logger.info("Exiting create user...");
-                return;
-            } else if (!choice.equalsIgnoreCase("y")) {
-                logger.info("Invalid input. Exiting...");
-                return;
-            }
-        }
 
         logger.info("Enter Organization:");
         String organization = scanner.nextLine();
@@ -113,7 +119,7 @@ public class UserControllerUi {
         String profileImage = scanner.nextLine();
 
         logger.info("Enter Password:");
-        String password = scanner.nextLine();
+        String password = getCheckPassword();
         Date dob;
 
         while (true) {
@@ -153,7 +159,8 @@ public class UserControllerUi {
                 isActive
         );
         try{
-            userController.createUser(user);
+            User newUser = userController.createUser(user);
+            logger.info(newUser.toString());
         }catch (DataAlreadyExistsException alreadyExistsException){
             logger.info("Email already exists : Exiting ");
             return;
@@ -195,6 +202,50 @@ public class UserControllerUi {
         List<User> users = userController.getAllUser();
         for(User user : users){
             logger.info(user.toString());
+        }
+    }
+
+    private String getEmailId(){
+        String email;
+        while (true) {
+            logger.info("Enter Email:");
+            email = scanner.nextLine();
+            if(!userController.isEmailValid(email)){
+                logger.info("Enter a valid email Id : ");
+                continue;
+            }
+            if (!userController.isEmailExists(email)) {
+                return email;
+            }
+
+            logger.info("Email already exists!");
+            logger.info("Try different email? (y/n):");
+            String choice = scanner.nextLine();
+
+            if (choice.equalsIgnoreCase("n")) {
+                logger.info("Exiting create user...");
+                return null;
+            } else if (!choice.equalsIgnoreCase("y")) {
+                logger.info("Invalid input. Exiting...");
+                return null;
+            }
+
+        }
+    }
+    private String getCheckPassword(){
+        String password ;
+        while (true) {
+            logger.info("Enter Password (min 8 characters, must include letters and numbers) : ");
+            password = scanner.nextLine();
+
+            if(!userController.isPasswordValid(password)){
+                logger.info("Enter a valid Password. : ");
+                continue;
+            }
+
+            return password;
+
+
         }
     }
 }

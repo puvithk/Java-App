@@ -20,4 +20,8 @@ public interface UserService {
     boolean isEmailExists(String email);
 
     boolean isDobValid(Date dob);
+
+    boolean isEmailValid(String email);
+
+    boolean isPasswordValid(String password);
 }
