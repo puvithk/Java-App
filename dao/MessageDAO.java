@@ -5,5 +5,5 @@ import model.Message;
 import java.util.List;
 
 public interface MessageDAO {
-    List<Message> getMessageFromChat(int chatId);
+    List<Message> findAllMessageFromChat(int chatId , int page);
 }

@@ -7,6 +7,7 @@ import model.Scope;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MessageDaoImpl implements MessageDAO {
@@ -25,9 +26,14 @@ public class MessageDaoImpl implements MessageDAO {
     ));
 
     @Override
-    public List<Message> getMessageFromChat(int chatId) {
+    public List<Message> findAllMessageFromChat(int chatId , int page) {
+        int pageSize = 5 ;
         return messages.stream()
-                .filter(message -> message.getMessageScope() == Scope.CHAT && message.getChatId()== chatId)
+                .filter(message -> message.getMessageScope() == Scope.CHAT
+                        && message.getChatId()== chatId)
+                .sorted(Comparator.comparing(Message::getTimestamp)) // Sorts based on the time
+                .skip((long) page *  pageSize ) // Skips the pages
+                .limit(5) // Limits the size
                 .toList();
     }
 }

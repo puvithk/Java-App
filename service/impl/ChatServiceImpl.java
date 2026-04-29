@@ -8,14 +8,14 @@ import service.ChatMessageService;
 
 import java.util.List;
 
-public class ChatServiceImplChat implements ChatMessageService {
+public class ChatServiceImpl implements ChatMessageService {
 
     //Get the Chat Dao
     private final ChatDAO chatDAO = new ChatDaoImpl();
     @Override
 
     public void sendMessage(Message message) {
-
+        return;
     }
     @Override
     public List<Chat> getAllChatByUser(int userId){
