@@ -17,6 +17,7 @@ public class UserController {
     // Delete User object By userId
     private final UserService userService = new UserServiceImpl();
     public List<User> getAllUser(){
+
         return userService.getAllUsers();
     }
     public User getUserById(int userId){
